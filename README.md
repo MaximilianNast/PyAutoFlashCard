@@ -18,6 +18,12 @@ that look right in terms of syntax, but ones that aren't necessarily correct.
     conda create -n PyAFC python=3.7
     ```
   
+    Then activate the virtual environment
+
+    ```
+    conda activate PyAFC
+    ```
+  
     Now install all the required packages as follows:
     
     ```
