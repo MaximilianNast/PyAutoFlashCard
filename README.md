@@ -75,6 +75,10 @@ that look right in terms of syntax, but ones that aren't necessarily correct.
     Now cd into the directory you cloned this repo to and download the desired model
 
     ```
+    cd gpt-2
+    ```
+
+    ```
     python download_model.py 774M
     ```
 
