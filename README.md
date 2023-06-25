@@ -57,6 +57,9 @@ that look right in terms of syntax, but ones that aren't necessarily correct.
 
     The technical details of the used language model are not part of the scope of this project since it is only used
     as an external resource!
+
+    Before continuing you should create a directory for this project and cd into it, then run all the following commands
+    from that path so everything is in one place.
     
     ```
     git clone https://github.com/openai/gpt-2
