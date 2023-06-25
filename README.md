@@ -145,3 +145,5 @@ that look right in terms of syntax, but ones that aren't necessarily correct.
 ![img1](https://github.com/MaximilianNast/PyAutoFlashCard/tree/main/demo_imgs/Screenshot_1.png?raw=true)
 
 ![img2](https://github.com/MaximilianNast/PyAutoFlashCard/tree/main/demo_imgs/Screenshot_2.png?raw=true)
+
+![img2](https://github.com/MaximilianNast/PyAutoFlashCard/tree/main/demo_imgs/Screenshot_3.png?raw=true)

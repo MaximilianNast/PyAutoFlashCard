@@ -10,29 +10,39 @@ import interactive_conditional_samples_mod as gpt2
 
 # ----------------------------------------------------------------------------------------------------------------------
 # definining the text input for the prompt to be completed by gpt-2
-context = "Requirements engineering is about the elicitation, analysis, specification, and validation of"           \
-          " requirements for software. Software requirements can be of three different types. There are functional" \
-          " requirements, non-functional requirements, and domain requirements. The operation of the software"      \
-          " should be performed and the proper output should be expected for the user to use. Non-functional"       \
-          " requirements deal with issues like portability, security, maintainability, reliability, scalability,"   \
-          " performance, reusability, and flexibility. They are classified into the following types: interface"     \
-          " constraints, performance constraints (such as response time, security, storage space, etc.), operating" \
-          " constraints, life cycle constraints (maintainability, portability, ...), and economic constraints."     \
-          " Knowledge of how the system or software works is needed when it comes to specifying non-functional"     \
-          " requirements. Domain requirements have to do with the characteristic of a certain category or domain"   \
-          " of projects. "
+# context = "Requirements engineering is about the elicitation, analysis, specification, and validation of"           \
+#           " requirements for software. Software requirements can be of three different types. There are functional" \
+#           " requirements, non-functional requirements, and domain requirements. The operation of the software"      \
+#           " should be performed and the proper output should be expected for the user to use. Non-functional"       \
+#           " requirements deal with issues like portability, security, maintainability, reliability, scalability,"   \
+#           " performance, reusability, and flexibility. They are classified into the following types: interface"     \
+#           " constraints, performance constraints (such as response time, security, storage space, etc.), operating" \
+#           " constraints, life cycle constraints (maintainability, portability, ...), and economic constraints."     \
+#           " Knowledge of how the system or software works is needed when it comes to specifying non-functional"     \
+#           " requirements. Domain requirements have to do with the characteristic of a certain category or domain"   \
+#           " of projects."
+#
+# question   = "What is Requirements Engineering about?"
+# answer     = "Requirements engineering is about the elicitation, analysis, specification, and validation of"   \
+#              " requirements for software."
 
-question   = "What is Requirements Engineering about? "
-answer     = "Requirements engineering is about the elicitation, analysis, specification, and validation of"   \
-             " requirements for software. "
+context = "The Labours of Heracles: In a swamp creeps a deadly nine-headed serpent called the Hydra. " \
+          "Killing it is one of 12 tasks Heracles – the son of Greek god, Zeus – must complete to become immortal. " \
+          "After throwing flaming spears at the beast, the Hydra attacks so Heracles hits its heads with a club, " \
+          "but more grow in their place! Heracles’ friend, Iolus, then leaps to his aid with a flaming torch. " \
+          "After an epic battle, the men finally destroy the Hydra!"
+question = "How does Heracles defeat the Hydra?"
+answer = "His Friend Iolus helped him with a flaming torch."
 
-prompt = context + "Question: " + question + "Answer:"
+prompt = context + " Question: " + question + " Correct Answer: " + answer + " Wrong Answer:"
+
+
 print(prompt)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # invoking model output with our mod
-output = gpt2.interact_model(model_name="774M", models_dir=MODEL_PATH + "/models", prompt=prompt,
-                            length=32, top_k=100, nsamples=3)
+output = gpt2.interact_model(model_name="1558M", models_dir=MODEL_PATH + "/models", prompt=prompt,
+                            length=25, top_k=200, nsamples=8)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # inserting the correct answer at a random index among the generated options
@@ -41,7 +51,8 @@ output.insert(random_index, answer)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # printing all the options
-[print("--- OPTION #" + str(idx) + " --------------\n" + out) for idx, out in enumerate(output)]
+print(question + "\n")
+[print("--- OPTION #" + str(idx) + " --------------\n" + out + "\n----------------------------\n") for idx, out in enumerate(output)]
 
 # ----------------------------------------------------------------------------------------------------------------------
 # checking if the user chooses the correct answer
