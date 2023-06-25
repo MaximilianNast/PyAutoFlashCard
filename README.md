@@ -49,6 +49,13 @@ that look right in terms of syntax, but ones that aren't necessarily correct.
     ```
     python -m pip install regex
     ```
+  
+    If you don't already have git installed on your system, you can install it in your conda environment now as you will
+    need it later
+
+    ```
+    conda install git
+    ```
 
 - #### (2) locally installing gpt-2
     
@@ -128,3 +135,7 @@ that look right in terms of syntax, but ones that aren't necessarily correct.
 
 - Warning: The generation of answers might take a few seconds based on the size of model you chose, your CPU and the
   parameters you configured in main.py. It may also generate a few warnings.
+
+# demo
+
+![img1](https://github.com/MaximilianNast/PyAutoFlashCard/tree/main/demo_imgs/Screenshot 2023-06-25 191622.png?raw=true)
