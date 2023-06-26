@@ -42,7 +42,7 @@ print(prompt)
 # ----------------------------------------------------------------------------------------------------------------------
 # invoking model output with our mod
 output = gpt2.interact_model(model_name="1558M", models_dir=MODEL_PATH + "/models", prompt=prompt,
-                            length=25, top_k=200, nsamples=8)
+                            length=24, top_k=80, nsamples=4, temperature=1)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # inserting the correct answer at a random index among the generated options
@@ -56,8 +56,8 @@ print(question + "\n")
 
 # ----------------------------------------------------------------------------------------------------------------------
 # checking if the user chooses the correct answer
-choice = input("\nWhich of the answers above is the correct one? (0-3) >>>")
-if choice == random_index:
+choice = input("\nWhich of the answers above is the correct one? (0-" + str(len(output)) + ") >>>")
+if int(choice) == random_index:
     print("You are correct, it's answer #" + str(random_index))
 else:
     print("You are wrong, it's answer #" + str(random_index))
