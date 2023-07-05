@@ -4,6 +4,7 @@ class FlashCard:
         self.lines = lines
         self.front_content = []
         self.back_content  = []
+        self.hidden_content = []  # additional information that isn't shown on the card
         self.parse()
 
     def parse(self):
@@ -16,34 +17,45 @@ class FlashCard:
         print("--- Rückseite:")
         [print(c, end='') for c in self.back_content]
 
-    def add_front_content(self, content):
-        if isinstance(content, list): self.front_content.extend(content)
-        else: self.front_content.append(content)
-
-    def add_back_content(self, content):
-        if isinstance(content, list): self.back_content.extend(content)
-        else: self.back_content.append(content)
+    def add_content(self, content, side="front"):
+        side_dict = {"front": self.front_content, "back": self.back_content, "hidden": self.hidden_content}
+        side = side_dict[side]
+        if isinstance(content, list): side.extend(content)
+        else: side.append(content)
 
 
 class SimpleCard(FlashCard):
 
     def parse(self):
-        self.add_front_content(self.lines[0])
-        self.add_back_content(self.lines[1:])
+        self.add_content(self.lines[0], "front")
+        self.add_content(self.lines[1:], "back")
 
 
 class FrontBackCard(FlashCard):
 
     def parse(self):
-        self.add_front_content(self.lines[0])
+
+        # a list of keywords to filter out
+        forbidden_words = ["{FRONT}", "{BACK}", "{HIDDEN}", "{QUESTION}", "#", "##"]
+
+        # start by adding content to the front
         add_to = "F"
-        for line in self.lines[1:]:
+
+        for line in self.lines[0:]:
+
+            # check where to add the content to
             if   "{FRONT}" in line: add_to = "F"
             elif "{BACK}" in line: add_to = "B"
-            if   add_to == "F":
-                self.add_front_content(line)
-            elif add_to == "B":
-                self.add_back_content(line)
+            elif "{HIDDEN}" in line: add_to = "H"
+
+            # filter out keywords
+            for word in forbidden_words:
+                line = line.replace(word, "")
+
+            # add the .md content to the right list
+            if   add_to == "F": self.add_content(line, "front")
+            elif add_to == "B": self.add_content(line, "back")
+            elif add_to == "H": self.add_content(line, "hidden")
 
 
 card_types = [SimpleCard, FrontBackCard]
@@ -51,9 +63,7 @@ card_types = [SimpleCard, FrontBackCard]
 # ----------------------------------------------------------------
 
 
-def mdToHtml(card_file: str, html_output: str):
-    pass
-
+def read(card_file: str):
     # read the file into a list of strings
     with open(card_file, encoding="utf-8") as f:
         lines = f.readlines()
@@ -75,6 +85,13 @@ def mdToHtml(card_file: str, html_output: str):
         c.show()
         parsed_cards.append(c)
 
+    return parsed_cards
+
+
+def mdToHtml(card_file: str, html_output: str):
+
+    parsed_cards = read(card_file)
+
     # create the html output
     start_string = "<!DOCTYPE html>\n<html lang=\"de\">\n<body>"
     end_string = "</body>\n</html>"
@@ -85,7 +102,7 @@ def mdToHtml(card_file: str, html_output: str):
     for idx, card in enumerate(parsed_cards):
         # headline
         output.write("<hr>")
-        output.write("<h1 id=\"K%s\">Karte #%s</h1>" % (idx, idx))
+        output.write("<h1 id=\"K%s\">Karte #%s</h1>" % (idx+1, idx+1))
 
         # front
         output.write("<h3 id=\"V%s\">Vorderseite:</h3>" % idx)
@@ -102,4 +119,4 @@ def mdToHtml(card_file: str, html_output: str):
 
 
 if __name__ == "__main__":
-    mdToHtml("../../045_Software_Engineering_SS23/Blatt_5/Markdown to HTML - Basic (PYTHON Alternative)/cards.md", "example.html")
+    mdToHtml("contextcards_example.md", "example.html")
