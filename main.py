@@ -42,7 +42,7 @@ print(prompt)
 # ----------------------------------------------------------------------------------------------------------------------
 # invoking model output with our mod
 output = gpt2.interact_model(model_name="1558M", models_dir=MODEL_PATH + "/models", prompt=prompt,
-                            length=24, top_k=80, nsamples=4, temperature=1)
+                            length=24, top_k=80, nsamples=4, temperature=1, batch_size=2)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # inserting the correct answer at a random index among the generated options
