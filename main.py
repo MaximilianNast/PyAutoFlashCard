@@ -21,6 +21,7 @@ def build_model_input(card_input, prime_by=1):
 
     # priming the prompt with a few of the first words of the answer
     primer = answer.split()[0:prime_by]
+    primer = " ".join(primer)
     out_prompt += primer
 
     # formatting the prompt for gpt
@@ -52,6 +53,7 @@ cards = md_flashcard_reader.read("contextcards_example.md")
 for card in cards:
 
     prompt, primer = build_model_input(card)
+    print(prompt)
 
     # invoking model output with our mod
     output = gpt2.interact_model(
