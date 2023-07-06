@@ -18,8 +18,16 @@ class FlashCard:
         [print(c, end='') for c in self.back_content]
 
     def add_content(self, content, side="front"):
+        # choose which side to add to
         side_dict = {"front": self.front_content, "back": self.back_content, "hidden": self.hidden_content}
         side = side_dict[side]
+
+        # cleaning up the content before adding
+        content = content.replace("\n", "")
+        content = content.replace("   ", "")
+        content = content.replace("  ", "")
+
+        # adding the content
         if isinstance(content, list): side.extend(content)
         else: side.append(content)
 
@@ -75,14 +83,11 @@ def read(card_file: str):
         if line == "\n" or line == "": continue
         cards[-1].append(line)
 
-    print(cards)
-
     # identify the type of card
     parsed_cards = []
     for card in cards:
         if "{QUESTION}" in card[0]: c = FrontBackCard(card)
         else:                       c = SimpleCard(card)
-        c.show()
         parsed_cards.append(c)
 
     return parsed_cards
