@@ -37,6 +37,7 @@ def clean_model_output(generated):
 
         # cutting off model output after the first finished sentence to make it less predictable
         ans = ans.replace("!", ".")
+        ans = ans.replace(";", ".")
         generated[i] = ans.split(".")[0] + "."
 
         # removing answers containing a questionmark
@@ -52,8 +53,7 @@ cards = md_flashcard_reader.read("contextcards_example.md")
 
 for card in cards:
 
-    prompt, primer = build_model_input(card)
-    print(prompt)
+    prompt, primer = build_model_input(card, prime_by=1)
 
     # invoking model output with our mod
     output = gpt2.interact_model(
@@ -84,6 +84,6 @@ for card in cards:
     # checking if the user chooses the correct answer
     choice = input("\nWhich of the answers above is the correct one? (0-" + str(len(output)) + ") >>>")
     if int(choice) == random_index:
-        print("You are correct, it's answer #" + str(random_index))
+        print("You are correct, it's answer #" + str(random_index) + "\n\n")
     else:
-        print("You are wrong, it's answer #" + str(random_index))
+        print("You are wrong, it's answer #" + str(random_index) + "\n\n")
